@@ -1,0 +1,96 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+body{
+  background-color: #121212;
+  color: white;
+  cursor: default;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.left{
+  width: 25vw;
+  padding: 10px;
+}
+
+.right{
+  width: 75vw;
+}
+
+.home ul li{
+  display: flex;
+  gap: 11px;
+  width: 15px;
+  list-style: none;
+  padding-top: 14px;
+  font-weight: bold;
+}
+.heading{
+  display: flex;
+  gap: 11px;
+  width: 344px;
+  padding-top: 14px;
+  font-weight: bold;
+  align-items: center;
+  padding: 23px 14px;
+  font-size: 13px;
+}
+.heading img{
+  width: 30px;
+}
+
+.libary{
+  min-height: 80vh;
+  position: relative;
+}
+
+.footer{
+  display: flex;
+  font-size: 10px;
+  color: grey;
+  position: absolute;
+  bottom: 0;
+}
+
+.footer a{
+  color: grey;
+  text-decoration: none;
+}
+.right{
+  margin: 15px 0;
+}
+.header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 23px;
+  background-color: rgb(34, 34, 34);
+}
+
+.header > *{
+  padding: 20px;
+}
+
+.spotifyPlaylists{
+  padding: 16px;
+}
+.cardContainer{
+  margin: 30px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.card{
+  width: 200px;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #252525;
+}
+.card{
+  padding-top: 10px;
+}
+.card img{
+  width: 100%;
+  object-fit: content;
+}
