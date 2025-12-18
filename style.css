@@ -1,0 +1,286 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  /* box-sizing prevents padding from breaking width */
+}
+
+
+body{
+    /*for backgorund colour to be black and text to be white*/
+    background-color: #000000;
+    color: rgb(255, 236, 236);
+    font-family: "Montserrat", sans-serif;
+    cursor: default; /*yeslay basically defeult cursor matra use hunxha and throughput body text copy garna mildina! */
+}
+
+/* navbar */
+nav{
+    display: flex;
+    align-items: center;
+    height: 4rem;
+    background-color: #0000006b;
+}
+/* style of left half of nav bar */
+.left-half{
+    display: flex;
+    align-items: center;
+    color: white;
+}
+/* style of spotify logo */
+.logo{
+    font-size: 2.5rem;
+    margin: 1rem;
+}
+.logo:hover{
+  cursor: pointer;
+}
+/* Basic style of home icon */
+.homeicon{
+    font-size: 1.7rem;
+    background-color: #1f1f1f;
+    padding: 10px;
+    color: rgb(255, 255, 255);
+    background-color: #1f1f1f;
+    border-radius: 50%;
+    margin: 0 1rem;
+    transition: 0.2s;
+    position: relative;
+}
+/* animation on home icon */
+.homeicon:hover{
+    cursor: pointer;
+    background-color: #303030;
+}
+/* style for search bar */
+.searchbar{ 
+    display: flex;
+    height: 3rem;
+    width: 30rem;
+    border-radius: 20rem;
+    background-color: #21212193;
+    align-items: center;
+    transition: 0.2sec;
+    border: 1px solid transparent;
+}
+.searchbar:hover{
+    background-color: #2f2f2f;
+     /* yeha theo border wala part bakee xha alee buggy fell vyo */
+    /* border: 0.00001rem solid rgb(164, 164, 164); */
+}
+.searchbar:focus-within{
+  border: 1px solid white;
+}
+.searchicon{
+    font-size: 1.5rem;
+    color: rgb(179,179 , 179);
+    padding: 0 0.7rem;
+}
+.searchbar:hover .searchicon{
+    color: rgb(242, 241, 241);
+}
+.inputbox{
+    width: 78%;
+    height: 60%;
+    background-color: #27272700;
+    border: none;
+    border-right: 1px solid rgb(179,179,179);
+    color: white;  /*yeslay just input text ko colour white garxha */
+    font-size: 1.2rem;
+    outline: none;
+}
+/* basic desigining and hover effects on browse */
+.browse{
+  font-size: 1.3rem;
+  margin-left: 0.6rem;
+  transition: 0.2s;
+  color: rgb(179, 179, 179);
+}
+.browse:hover{
+  cursor: pointer; /*yeslayy basically cursor lai pointer ma change garxha while hover */
+  color: #ffffff;
+}
+
+.right-half{
+  display: flex;
+  align-items: center;
+  color: white;
+  margin-left: auto;
+  /* width: 48%; yo use garena cause it was making me harder to stick on left right */
+}
+
+.righthalfp1{
+  display: flex;
+  align-items: center;
+  margin: 0 1rem;
+  height: 1.7rem;
+  padding: 0 1rem 0 0;
+  border-right: 1px solid rgb(179, 179, 179);
+}
+/* style for every content having P tag on nav bar right side */
+.nav-text {
+    padding: 0 0.5rem;
+    font-weight: 600;
+    color: rgb(179, 179, 179);
+    transition: 0.1s;
+}
+
+.nav-text:hover {
+    color: white;
+    cursor: pointer;
+}
+
+.righthalfp2 {
+    display: flex;
+    align-items: center;
+}
+/* basic style for loginbutton  */
+.login-btn {
+  height: 3rem;
+  width: 7rem;
+  border-radius: 7rem;
+  border: none;
+  background-color: white;
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 1rem;
+  transition: 0.2s;
+}
+
+.login-btn:hover{
+  background-color: whitesmoke;
+  cursor: pointer;
+}
+/* end of navbar stykle */
+/* style of mainsection */
+/* basic style for all containers in main part */
+.main {
+    background-color: #000000;
+    min-width: 98vw;
+    height: 78vh;
+    margin-top: 0.2vh;
+    display: flex;
+    justify-content: space-around;
+    color: white;
+}
+.mainleftpart {
+    width: 27%;
+    height: 100%;
+    background-color: #121212;
+    border-radius: 10px;
+}
+
+.mainrightpart{
+  width: 72%;
+  height: 100%;
+  background-color: #121212;
+  border-radius: 10px;
+  padding: 2rem;
+}
+.libary{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1rem 1.5rem;
+}
+.libary p{
+  font-weight: 600;
+}
+.libary div{
+  font-size: 2rem;
+  color: rgb(179,179,179);
+  background-color: transparent;
+  border-radius: 20PX;
+  display: flex;
+  padding: 8px;
+  height: 1.5rem;
+  width: 1.5rem;
+  align-items: center;
+  justify-content: center;
+  transition: 0.2s;
+}
+.libary div:hover{
+  background-color: #434343;
+  cursor: pointer;
+  color: white;
+}
+.box-container{
+  margin-top: 1rem;
+  height: 100%;
+}
+.box{
+  background-color: #1f1f1f;
+  height: 22%;
+  width: 98%;
+  border-radius: 10px;
+  margin: 1rem 0;
+}
+
+.box h4{
+  font-weight: 600;
+  font: 0.9rem;
+  padding: 1.3rem 0 0.5rem 1rem;
+}
+.box p{
+  font-size: 0.8rem;
+  padding-left: 1rem;
+}
+.box button{
+  background-color: white;
+  color: black;
+  font-weight: 600;
+  padding: 0.6rem 0.8rem;
+  margin: 1rem 0 0 1rem;
+  border-radius: 25px;
+  transition: 0.2s;
+}
+
+.box button:hover{
+  background-color: whitesmoke;
+  cursor: pointer;
+}
+.musiccard img{
+  height: 10rem;
+  width: 10rem;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 5px;
+  display: block;
+  margin: 0 auto;
+}
+
+.musiccard{
+  width: 11.2rem;
+  padding: 0.5rem;
+  border-radius: 5px;
+  overflow: hidden;
+  margin: 0.7rem;
+  transition: .2s;
+}
+.musiccard:hover{
+  background-color: #41414130;
+}
+
+.musicsection{
+  margin: 0;
+
+}
+.albums-container{
+  display: flex;
+  gap: 2rem;
+}
+.songs{
+  margin: 0;
+  display: flex;
+}
+.mainrightpart h2{
+  transition:.2s;
+  margin: 1rem;
+}
+.mainrightpart h2{
+  margin-bottom: 0;
+}
+.mainrightpart h2:hover{
+  cursor: pointer;
+  text-decoration: underline;
+}
