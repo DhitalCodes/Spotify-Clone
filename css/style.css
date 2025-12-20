@@ -64,6 +64,7 @@ body{
 }
 .right{
   margin: 15px 0;
+  position: relative;
 }
 .header{
   display: flex;
@@ -123,8 +124,8 @@ body{
     box-shadow 0.2s ease;
 }
 
-/* hover reveal */
-.play:hover i {
+/* hover effect for play button */
+.card:hover .play i{
   opacity: 1;
   transform: translateY(0) scale(1);
   cursor: pointer;
@@ -139,7 +140,7 @@ body{
   margin: 0 12px;
 }
 
-/* same for both buttons */
+/* same for both button */
 .buttons button {
   font-weight: 600;
   border: none;
@@ -183,3 +184,16 @@ body{
   transform: scale(0.97);
 }
 
+.playbar{
+  position: absolute;
+  bottom: 0;
+  background-color: #2abb62;
+  width: 100%;
+  padding: 12px;
+}
+
+.songsbuttons{
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
