@@ -39,14 +39,19 @@
                     <img class="invert" src="img/svgs/logo.svg" alt="Spotify logo">
                 </div>
                 <ul>
-                    <li><img class="invert" src="img/svgs/home.svg" alt="Home">Home</li>
-                    <li><img class="invert" src="img/svgs/search.svg" alt="Search">Search</li>
+                    <li><img src="img/svgs/home.svg" alt="Home">Home</li>
+                    <li><img src="img/svgs/search.svg" alt="Search">Search</li>
                 </ul>
             </div>
             <div class="libary bg-grey rounded m-1 p-1">
                 <div class="heading">
                     <img class="invert" src="img/svgs/playlist.svg" alt="Playlist icon">
                     <h2>Your Library</h2>
+                </div>
+                <div class="songlist">
+                    <ul>
+
+                    </ul>
                 </div>
                 <div class="footer">
                     <div><a href="https://www.spotify.com/jp/legal/"><span>Legal</span></a></div>
@@ -96,7 +101,7 @@
                     <!-- end of yb khartra album  -->
                     <!-- uniq poet kalo -->
                     <div class="card">
-                                                <div class="play">
+                        <div class="play">
                             <i class="fa-solid fa-play"></i>
                         </div>
                         <img src="img/playlist/UP Kalo.jpg" alt="Uniq Poet Playlist">
@@ -106,19 +111,23 @@
                 </div>
             </div>
             <div class="playbar">
-                <div class="songinfo">
-                    
+                <div class="seekbar">
+                    <div class="progress"></div>
+                    <div class="circle"></div>
                 </div>
-                <div class="songsbuttons">
-                    <img src="img/svgs/prevsong.svg" alt="Previous Song">
-                    <img src="img/svgs/play.svg" alt="Play">
-                    <img src="img/svgs/nextsong.svg" alt="Next Song">
+                <div class="songinfo">
+                    <span class="current-song"></span>
+                    <span class="artist"></span>
+                </div>
+                <div class="songbuttons">
+                    <img width="35" id="previous" src="img/svgs/prevsong.svg" alt="">
+                    <img width="35" id="play" src="img/svgs/pause.svg" alt="">
+                    <img width="35" id="next" src="img/svgs/nextsong.svg" alt="">
                 </div>
                 <div class="songtime"></div>
             </div>
         </div>
-    </div>
-<script src="script/script.js"></script>
+        <script src="script/script.js"></script>
 </body>
 
 </html>
