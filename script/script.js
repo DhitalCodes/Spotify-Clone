@@ -15,7 +15,7 @@ function secondsToMinutesSeconds(seconds) {
     return `${formattedMinutes}:${formattedSeconds}`;
 }
 
-async function getSongs() {
+async function getSongs(folder) {
     let a = await fetch("http://127.0.0.1:5500/songs/YBkhatra/");
     let response = await a.text();
     let div = document.createElement("div");
@@ -90,7 +90,7 @@ async function main() {
         songUL.innerHTML =
             songUL.innerHTML +
             `<li>
-            <img class="invert" width="34" src="img/svgs/music.svg" alt="">
+            <img class="musicsvg" width="34" src="img/svgs/music.svg" alt="">
             <div class="info">
                 <div>${fileName}</div>
                 <div>Yama Buddha</div>

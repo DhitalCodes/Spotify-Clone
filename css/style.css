@@ -616,21 +616,10 @@ p {
 
 .hamburger {
     display: none;
+    filter: brightness(0) invert(100%);
 }
 
-/* Scrollba */
-::-webkit-scrollbar {
-    width: 12px;
-}
 
-::-webkit-scrollbar-thumb {
-    background-color: #535353;
-    border-radius: 6px;
-}
-
-::-webkit-scrollbar-track {
-    background-color: transparent;
-}
 
 /* Media Queries */
 @media (max-width: 1400px) {
@@ -687,6 +676,10 @@ p {
     .songinfo {
         min-width: 150px;
     }
+}
+
+.musicsvg{
+    filter: brightness(0) invert(100%);
 }
 
 @media (max-width: 768px) {
