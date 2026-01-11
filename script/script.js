@@ -2,7 +2,10 @@ console.log("Lets Write Some JavaScript");
 let songs;
 let currentSong = new Audio();
 let currentSongIndex = 0;
+let currFolder;
+let currentPlaylistInfo = null;
 
+// converts seconds to mm:ss format
 function secondsToMinutesSeconds(seconds) {
     if (isNaN(seconds) || seconds < 0) {
         return "00:00";
@@ -16,68 +19,34 @@ function secondsToMinutesSeconds(seconds) {
 }
 
 async function getSongs(folder) {
-    let a = await fetch("http://127.0.0.1:5500/songs/YBkhatra/");
+    currFolder = folder;
+    
+    // grab the playlist info from json
+    try {
+        let metaResponse = await fetch(`songs/${folder}/info.json`);
+        currentPlaylistInfo = await metaResponse.json();
+    } catch (error) {
+        console.log("Could not load playlist info", error);
+        currentPlaylistInfo = { artist: folder }; 
+    }
+    
+    let a = await fetch(`songs/${folder}/`);
     let response = await a.text();
     let div = document.createElement("div");
     div.innerHTML = response;
     let as = div.getElementsByTagName("a");
     songs = [];
 
+    // filter out only mp3 files
     for (let index = 0; index < as.length; index++) {
         const element = as[index];
         if (element.href.endsWith(".mp3")) {
-            songs.push(element.href);
+            songs.push(element.href.split(`/songs/${folder}/`)[1]);
         }
     }
-    return songs;
-}
-
-const playMusic = (track, pause = false) => {
-    let play = document.querySelector("#play");
-    currentSong.src = track;
-
-    // Update current song index
-    currentSongIndex = songs.indexOf(track);
-
-    if (!pause) {
-        currentSong.play();
-        play.src = "img/svgs/pause.svg";
-    } else {
-        currentSong.pause();
-        play.src = "img/svgs/play.svg";
-    }
-
-    // song name from the URL
-    let songName = track
-        .split("/")
-        .pop()
-        .replaceAll("%20", " ")
-        .replace(/\.mp3$/i, "");
-
-    document.querySelector(".songinfo .current-song").textContent = songName;
-    document.querySelector(".songtime").textContent = "00:00/00:00";
-    document.querySelector(".songinfo .artist").textContent = "Yama Buddha";
-};
-
-async function main() {
-    let play = document.querySelector("#play");
-    let previous = document.querySelector("#previous"); // Get previous button
-    let next = document.querySelector("#next"); // Get next button
-
-    // Get list of all songs
-    songs = await getSongs();
-
-    // Play first song (paused by default)
-    if (songs.length > 0) {
-        playMusic(songs[0], true);
-    }
-
-    // Show all the songs in the playlist
-    let songUL = document
-        .querySelector(".songlist")
-        .getElementsByTagName("ul")[0];
-
-    // Clear any existing content
+    
+    // populate the song list in sidebar
+    let songUL = document.querySelector(".songlist").getElementsByTagName("ul")[0];
     songUL.innerHTML = "";
 
     for (const song of songs) {
@@ -93,7 +62,7 @@ async function main() {
             <img class="musicsvg" width="34" src="img/svgs/music.svg" alt="">
             <div class="info">
                 <div>${fileName}</div>
-                <div>Yama Buddha</div>
+                <div>${currentPlaylistInfo.artist || folder}</div>
             </div>
             <div class="playnow">
                 <span>Play Now</span>
@@ -102,7 +71,7 @@ async function main() {
         </li>`;
     }
 
-    // Attach event listener to each song in the library
+    // click handler for each song
     Array.from(
         document.querySelector(".songlist").getElementsByTagName("li")
     ).forEach((e, index) => {
@@ -110,8 +79,92 @@ async function main() {
             playMusic(songs[index]);
         });
     });
+    
+    return songs;
+}
 
-    // Attach event listener to play button
+async function displayAlbums() {
+    let a = await fetch(`songs/`);
+    let response = await a.text();
+    let div = document.createElement("div");
+    div.innerHTML = response;
+    let anchors = div.getElementsByTagName("a");
+    let cardContainer = document.querySelector(".cardContainer");
+    
+    let array = Array.from(anchors);
+    for (let index = 0; index < array.length; index++) {
+        const e = array[index];
+        
+        if (e.href.includes("/songs/") && !e.href.includes(".htaccess")) {
+            let folder = e.href.split("/").slice(-1)[0];
+            
+            // fetch playlist metadata
+            let a = await fetch(`songs/${folder}/info.json`);
+            let response = await a.json();
+            
+            cardContainer.innerHTML = cardContainer.innerHTML + `
+            <div data-folder="${folder}" class="card">
+                <div class="play">
+                    <i class="fa-solid fa-play"></i>
+                </div>
+                <img src="songs/${folder}/cover.jpg" alt="${response.title}">
+                <h3>${response.title}</h3>
+                <p>${response.description}</p>
+            </div>`;
+        }
+    }
+    
+    // when you click a card, load that playlist
+    Array.from(document.getElementsByClassName("card")).forEach(e => {
+        e.addEventListener("click", async item => {
+            songs = await getSongs(item.currentTarget.dataset.folder);
+            playMusic(songs[0], false);
+        });
+    });
+}
+
+const playMusic = (track, pause = false) => {
+    let play = document.querySelector("#play");
+    currentSong.src = `songs/${currFolder}/` + track;
+
+    currentSongIndex = songs.indexOf(track);
+
+    if (!pause) {
+        currentSong.play();
+        play.src = "img/svgs/pause.svg";
+    } else {
+        currentSong.pause();
+        play.src = "img/svgs/play.svg";
+    }
+
+    // clean up song name for display
+    let songName = track
+        .split("/")
+        .pop()
+        .replaceAll("%20", " ")
+        .replace(/\.mp3$/i, "");
+
+    document.querySelector(".songinfo .current-song").textContent = songName;
+    document.querySelector(".songtime").textContent = "00:00/00:00";
+    document.querySelector(".songinfo .artist").textContent = currentPlaylistInfo?.artist || currFolder;
+};
+
+async function main() {
+    let play = document.querySelector("#play");
+    let previous = document.querySelector("#previous");
+    let next = document.querySelector("#next");
+
+    // load all album cards
+    await displayAlbums();
+
+    // default to first playlist
+    songs = await getSongs("YBkhatra");
+
+    if (songs.length > 0) {
+        playMusic(songs[0], true);
+    }
+
+    // play/pause toggle
     play.addEventListener("click", () => {
         if (currentSong.paused) {
             currentSong.play();
@@ -122,6 +175,7 @@ async function main() {
         }
     });
 
+    // update time and seekbar as song plays
     currentSong.addEventListener("timeupdate", () => {
         document.querySelector(".songtime").innerHTML = `${secondsToMinutesSeconds(
             currentSong.currentTime
@@ -133,7 +187,7 @@ async function main() {
         document.querySelector(".progress").style.width = percentage + "%";
     });
 
-    // Add event listener for seekbar
+    // seekbar click to jump to different time
     document.querySelector(".seekbar").addEventListener("click", (e) => {
         let seekbarWidth = e.currentTarget.getBoundingClientRect().width;
         let clickX = e.offsetX;
@@ -145,13 +199,12 @@ async function main() {
         document.querySelector(".circle").style.left = percentage + "%";
         document.querySelector(".progress").style.width = percentage + "%";
 
-        // jump to clicked part of audio
         if (currentSong.duration) {
             currentSong.currentTime = (percentage / 100) * currentSong.duration;
         }
     });
 
-    // Add event listener for hamburger
+    // mobile menu toggle
     document.querySelector(".hamburger").addEventListener("click", () => {
         document.querySelector(".left").classList.toggle("active");
     });
@@ -160,12 +213,11 @@ async function main() {
         document.querySelector(".left").classList.remove("active");
     });
 
-    // Add event listener to previous button
+    // previous song button
     previous.addEventListener("click", () => {
         console.log("Previous Clicked");
         if (songs.length === 0) return;
 
-        // Decrement index, wrap around to last song if at beginning
         currentSongIndex--;
         if (currentSongIndex < 0) {
             currentSongIndex = songs.length - 1;
@@ -174,12 +226,11 @@ async function main() {
         playMusic(songs[currentSongIndex]);
     });
 
-    // Add event listener to next button
+    // next song button
     next.addEventListener("click", () => {
         console.log("Next Clicked");
         if (songs.length === 0) return;
 
-        // Increment index, wrap around to first song if at end
         currentSongIndex++;
         if (currentSongIndex >= songs.length) {
             currentSongIndex = 0;
@@ -188,11 +239,22 @@ async function main() {
         playMusic(songs[currentSongIndex]);
     });
 
-    // keyboard shortcut to pause play (got this on github)
+    // auto play next song when current ends
+    currentSong.addEventListener("ended", () => {
+        if (songs.length === 0) return;
+        
+        currentSongIndex++;
+        if (currentSongIndex >= songs.length) {
+            currentSongIndex = 0;
+        }
+        
+        playMusic(songs[currentSongIndex]);
+    });
+
+    // spacebar to play/pause
     document.addEventListener("keydown", (e) => {
-        // Space bar to play/pause
         if (e.code === "Space") {
-            e.preventDefault(); // Prevent page scrolling
+            e.preventDefault();
             if (currentSong.paused) {
                 currentSong.play();
                 play.src = "img/svgs/pause.svg";
@@ -202,24 +264,23 @@ async function main() {
             }
         }
     });
-    //prevent text copy paste (kearned from :https://youtu.be/ldNXmJAj4Yo) but this wass not what i expected but fine learned something new basically what this dose this is when user copy text or anything from the website technically you can copy but when you want to paste the same content in another page or whereever you want it displays the massage you wrote in this case i think i wrote you can't copy texts or something like that , but what i really want is like the spotify when you try to select the text you cant i think it improves ui experience so i wanted to do that lets see  if i could find any tutorial to learn how to actually do it and how it works 
+
+    // disable copying text
     document.addEventListener("copy", (event) => {
         const copieedText = window.getSelection().toString();
-        event.clipboardData.setData('text/plain', 'You cant copy and paste contents');
+        event.clipboardData.setData('text/plain', 'You cant copy paste contents');
         event.preventDefault();
     });
 
-    //got a tutorial on youtube shorts (https://youtube.com/shorts/TDOR3ys6ohs?si=RRHLCgtE46_vgOkc) this will prevent user to do right click 
+    // no right click
     document.addEventListener('contextmenu', function (e) {
         e.preventDefault();
     });
 
-    //basically done what i wanted got tutorial on (https://youtu.be/iniISlPcOHU) but have questions like how is it working ??
-
+    // prevent selecting text
     addEventListener('selectstart',(e) => {
         e.preventDefault();
     });
-
 }
 
 main();
