@@ -5,6 +5,20 @@ let currentSongIndex = 0;
 let currFolder;
 let currentPlaylistInfo = null;
 
+// Get the base path for GitHub Pages
+const getBasePath = () => {
+    const path = window.location.pathname;
+    const pathArray = path.split('/').filter(segment => segment);
+    if (pathArray.length > 0 && !path.endsWith('.html')) {
+        return '/' + pathArray[0] + '/';
+    }
+    return '/';
+};
+
+const basePath = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+    ? '/' 
+    : getBasePath();
+
 // converts seconds to mm:ss format
 function secondsToMinutesSeconds(seconds) {
     if (isNaN(seconds) || seconds < 0) {
@@ -23,14 +37,14 @@ async function getSongs(folder) {
     
     // grab the playlist info from json
     try {
-        let metaResponse = await fetch(`songs/${folder}/info.json`);
+        let metaResponse = await fetch(`${basePath}songs/${folder}/info.json`);
         currentPlaylistInfo = await metaResponse.json();
     } catch (error) {
         console.log("Could not load playlist info", error);
         currentPlaylistInfo = { artist: folder }; 
     }
     
-    let a = await fetch(`songs/${folder}/`);
+    let a = await fetch(`${basePath}songs/${folder}/`);
     let response = await a.text();
     let div = document.createElement("div");
     div.innerHTML = response;
@@ -71,7 +85,7 @@ async function getSongs(folder) {
         </li>`;
     }
 
-    // click handler for each song
+    // click handler to each song
     Array.from(
         document.querySelector(".songlist").getElementsByTagName("li")
     ).forEach((e, index) => {
@@ -84,7 +98,7 @@ async function getSongs(folder) {
 }
 
 async function displayAlbums() {
-    let a = await fetch(`songs/`);
+    let a = await fetch(`${basePath}songs/`);
     let response = await a.text();
     let div = document.createElement("div");
     div.innerHTML = response;
@@ -98,8 +112,8 @@ async function displayAlbums() {
         if (e.href.includes("/songs/") && !e.href.includes(".htaccess")) {
             let folder = e.href.split("/").slice(-1)[0];
             
-            // fetch playlist metadata
-            let a = await fetch(`songs/${folder}/info.json`);
+            //playlist metadata
+            let a = await fetch(`${basePath}songs/${folder}/info.json`);
             let response = await a.json();
             
             cardContainer.innerHTML = cardContainer.innerHTML + `
@@ -107,7 +121,7 @@ async function displayAlbums() {
                 <div class="play">
                     <i class="fa-solid fa-play"></i>
                 </div>
-                <img src="songs/${folder}/cover.jpg" alt="${response.title}">
+                <img src="${basePath}songs/${folder}/cover.jpg" alt="${response.title}">
                 <h3>${response.title}</h3>
                 <p>${response.description}</p>
             </div>`;
@@ -125,7 +139,7 @@ async function displayAlbums() {
 
 const playMusic = (track, pause = false) => {
     let play = document.querySelector("#play");
-    currentSong.src = `songs/${currFolder}/` + track;
+    currentSong.src = `${basePath}songs/${currFolder}/` + track;
 
     currentSongIndex = songs.indexOf(track);
 
