@@ -266,6 +266,21 @@ async function main() {
                 play.src = "img/svgs/play.svg";
             }
         }
+        //keyboard shortcut to play next song using right arrow key
+        if(e.code === "ArrowRight"){
+            e.preventDefault();
+            next.click();
+        }
+        //keyboard shortcut to play previous song using left arrow key
+        if(e.code === "ArrowLeft"){
+            e.preventDefault();
+           previous.click();
+        }
+
+        if (e.code === "KeyM") {
+        currentSong.muted = !currentSong.muted;
+        console.log("Muted:", currentSong.muted);
+        }
     });
 
     // Prevent copy
