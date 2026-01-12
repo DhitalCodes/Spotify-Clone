@@ -1,6 +1,12 @@
-
- {
-    "title": "Khatra Playlist",
-    "description": "Khatra is last studio album by Nepalese rapper Yama Buddha.",
-    "artist": "Yama Buddha"
+{
+  "title": "Khatra Playlist",
+  "description": "Khatra is last studio album by Nepalese rapper Yama Buddha.",
+  "artist": "Yama Buddha",
+  "songs": [
+    "Allarey Thita.mp3",
+    "K Vaako Hola.mp3",
+    "Paisa.mp3",
+    "Taaj.mp3",
+    "Yodda.mp3"
+  ]
 }
