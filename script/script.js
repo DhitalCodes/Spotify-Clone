@@ -271,7 +271,7 @@ async function main() {
 
         playMusic(songs[currentSongIndex]);
     });
-//yo vandha talall keybord shortcuts
+    //yo vandha talall keybord shortcuts
     // keyboard shortcut to pause play
     document.addEventListener("keydown", (e) => {
         // Space bar to play/pause
@@ -304,7 +304,7 @@ async function main() {
         if (e.code === "Escape") {
             document.querySelector(".left").classList.toggle("active");
         }
-//f to full screen and algain f to exit full screen
+        //f to full screen and algain f to exit full screen
         if (e.code === "KeyF") {
             document.documentElement.requestFullscreen();
         }
@@ -320,11 +320,30 @@ async function main() {
         if (e.code === "KeyP") {
             previous.click();
         }
-       // U to reload the page
+        // U to reload the page
         if (e.code === "KeyU") {
             window.location.reload();
         }
-       
+        // Replay current song from start using R key
+        if (e.code === "KeyR") {
+            e.preventDefault();
+            currentSong.currentTime = 0;
+            if (currentSong.paused) {
+                currentSong.play();
+                play.src = "img/svgs/pause.svg";
+            }
+        }
+        // Seek backward 10 seconds using J key
+        if (e.code === "KeyJ") {
+        e.preventDefault();
+        currentSong.currentTime = Math.max(0, currentSong.currentTime - 10);
+    }
+        // Seek forward 10 seconds using K key
+        if (e.code === "KeyK") {
+        e.preventDefault();
+        currentSong.currentTime = Math.min(currentSong.duration, currentSong.currentTime + 10);
+    }
+
     });
     //done with shortcuts
 
