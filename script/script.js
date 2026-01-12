@@ -19,16 +19,16 @@ function secondsToMinutesSeconds(seconds) {
 
 async function getSongs(folder) {
     currFolder = folder;
-    
+
     // Load playlist metadata
     try {
         let metaResponse = await fetch(`./songs/${folder}/info.json`);
         currentPlaylistInfo = await metaResponse.json();
     } catch (error) {
         console.log("Could not load playlist info", error);
-        currentPlaylistInfo = { artist: folder }; 
+        currentPlaylistInfo = { artist: folder };
     }
-    
+
     let a = await fetch(`./songs/${folder}/`);
     let response = await a.text();
     let div = document.createElement("div");
@@ -42,7 +42,7 @@ async function getSongs(folder) {
             songs.push(element.href.split(`/songs/${folder}/`)[1]);
         }
     }
-    
+
     // Show all the songs in the playlist
     let songUL = document.querySelector(".songlist").getElementsByTagName("ul")[0];
     songUL.innerHTML = "";
@@ -77,7 +77,7 @@ async function getSongs(folder) {
             playMusic(songs[index]);
         });
     });
-    
+
     return songs;
 }
 
@@ -88,18 +88,18 @@ async function displayAlbums() {
     div.innerHTML = response;
     let anchors = div.getElementsByTagName("a");
     let cardContainer = document.querySelector(".cardContainer");
-    
+
     let array = Array.from(anchors);
     for (let index = 0; index < array.length; index++) {
         const e = array[index];
-        
+
         if (e.href.includes("/songs/") && !e.href.includes(".htaccess")) {
             let folder = e.href.split("/").slice(-1)[0];
-            
+
             // Get the metadata
             let a = await fetch(`./songs/${folder}/info.json`);
             let response = await a.json();
-            
+
             cardContainer.innerHTML = cardContainer.innerHTML + `
             <div data-folder="${folder}" class="card">
                 <div class="play">
@@ -111,7 +111,7 @@ async function displayAlbums() {
             </div>`;
         }
     }
-    
+
     // Load playlist on card click
     Array.from(document.getElementsByClassName("card")).forEach(e => {
         e.addEventListener("click", async item => {
@@ -187,9 +187,13 @@ async function main() {
     });
 
     // Add event listener for seekbar
-    document.querySelector(".seekbar").addEventListener("click", (e) => {
-        let seekbarWidth = e.currentTarget.getBoundingClientRect().width;
-        let clickX = e.offsetX;
+    let isDragging = false;
+
+    const updateSeekbar = (e) => {
+        let seekbar = document.querySelector(".seekbar");
+        let seekbarRect = seekbar.getBoundingClientRect();
+        let clickX = e.clientX - seekbarRect.left;
+        let seekbarWidth = seekbarRect.width;
         let percentage = (clickX / seekbarWidth) * 100;
 
         if (percentage < 0) percentage = 0;
@@ -202,6 +206,21 @@ async function main() {
         if (currentSong.duration) {
             currentSong.currentTime = (percentage / 100) * currentSong.duration;
         }
+    };
+
+    document.querySelector(".seekbar").addEventListener("mousedown", (e) => {
+        isDragging = true;
+        updateSeekbar(e);
+    });
+
+    document.addEventListener("mousemove", (e) => {
+        if (isDragging) {
+            updateSeekbar(e);
+        }
+    });
+
+    document.addEventListener("mouseup", () => {
+        isDragging = false;
     });
 
     // Add event listener for hamburger
@@ -244,15 +263,15 @@ async function main() {
     // Auto-play next song when current song ends
     currentSong.addEventListener("ended", () => {
         if (songs.length === 0) return;
-        
+
         currentSongIndex++;
         if (currentSongIndex >= songs.length) {
             currentSongIndex = 0;
         }
-        
+
         playMusic(songs[currentSongIndex]);
     });
-
+//yo vandha talall keybord shortcuts
     // keyboard shortcut to pause play
     document.addEventListener("keydown", (e) => {
         // Space bar to play/pause
@@ -266,9 +285,50 @@ async function main() {
                 play.src = "img/svgs/play.svg";
             }
         }
-    });
+        //keyboard shortcut to play next song using right arrow key
+        if (e.code === "ArrowRight") {
+            e.preventDefault();
+            next.click();
+        }
+        //keyboard shortcut to play previous song using left arrow key
+        if (e.code === "ArrowLeft") {
+            e.preventDefault();
+            previous.click();
+        }
+        // mute track using M on Keyboard
+        if (e.code === "KeyM") {
+            currentSong.muted = !currentSong.muted;
+            console.log("Muted:", currentSong.muted);
+        }
+        // open sidebar with ESC key
+        if (e.code === "Escape") {
+            document.querySelector(".left").classList.toggle("active");
+        }
+//f to full screen and algain f to exit full screen
+        if (e.code === "KeyF") {
+            document.documentElement.requestFullscreen();
+        }
 
-    // Prevent copy
+        if (e.code === "KeyF") {
+            document.exitFullscreen();
+        }
+        // N to play next song
+        if (e.code === "KeyN") {
+            next.click();
+        }
+        // P to play previous song
+        if (e.code === "KeyP") {
+            previous.click();
+        }
+       // U to reload the page
+        if (e.code === "KeyU") {
+            window.location.reload();
+        }
+       
+    });
+    //done with shortcuts
+
+    // when user copy paste content they get messae"You caNT COpy paste contents"
     document.addEventListener("copy", (event) => {
         const copieedText = window.getSelection().toString();
         event.clipboardData.setData('text/plain', 'You cant copy paste contents');
@@ -280,8 +340,8 @@ async function main() {
         e.preventDefault();
     });
 
-    // Prevent text selection
-    addEventListener('selectstart',(e) => {
+    // Prevent text selection found out this feature on actual spotify and i guess this immproves UI.UX but a lot
+    addEventListener('selectstart', (e) => {
         e.preventDefault();
     });
 }
