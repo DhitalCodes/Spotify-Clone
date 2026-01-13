@@ -1,17 +1,5 @@
 {
   "title": "Uniq Poet Playlist",
   "description": "Voices of Uniq Poet.",
-  "artist": "Uniq Poet",
-  "songs": [
-    "1994.mp3",
-    "GAME ON.mp3",
-    "Heavy.mp3",
-    "Jheli.mp3",
-    "Kaalo 2.0.mp3",
-    "KAAM.mp3",
-    "Khatra Barz.mp3",
-    "Mero Desh Birami.mp3",
-    "Nepali Choro.mp3",
-    "Tamaso.mp3"
-  ]
+  "artist": "Uniq Poet"
 }
