@@ -285,22 +285,12 @@ async function main() {
                 play.src = "img/svgs/play.svg";
             }
         }
-        //keyboard shortcut to play next song using right arrow key
-        if (e.code === "ArrowRight") {
-            e.preventDefault();
-            next.click();
-        }
-        //keyboard shortcut to play previous song using left arrow key
-        if (e.code === "ArrowLeft") {
-            e.preventDefault();
-            previous.click();
-        }
         // mute track using M on Keyboard
         if (e.code === "KeyM") {
             currentSong.muted = !currentSong.muted;
             console.log("Muted:", currentSong.muted);
         }
-        // open sidebar with ESC key
+        // open hamburger with ESC key
         if (e.code === "Escape") {
             document.querySelector(".left").classList.toggle("active");
         }
@@ -308,7 +298,6 @@ async function main() {
         if (e.code === "KeyF") {
             document.documentElement.requestFullscreen();
         }
-
         if (e.code === "KeyF") {
             document.exitFullscreen();
         }
@@ -320,12 +309,8 @@ async function main() {
         if (e.code === "KeyP") {
             previous.click();
         }
-        // U to reload the page
-        if (e.code === "KeyU") {
-            window.location.reload();
-        }
-        // Replay current song from start using R key
-        if (e.code === "KeyR") {
+        // Replay current song from start using Q key
+        if (e.code === "KeyQ") {
             e.preventDefault();
             currentSong.currentTime = 0;
             if (currentSong.paused) {
@@ -333,13 +318,13 @@ async function main() {
                 play.src = "img/svgs/pause.svg";
             }
         }
-        // Seek backward 10 seconds using J key
-        if (e.code === "KeyJ") {
+        // Seek backward 10 seconds using ArrowLeft key
+        if (e.code === "ArrowLeft") {
         e.preventDefault();
         currentSong.currentTime = Math.max(0, currentSong.currentTime - 10);
     }
-        // Seek forward 10 seconds using K key
-        if (e.code === "KeyK") {
+        // Seek forward 10 seconds using ArrowRight key
+        if (e.code === "ArrowRight") {
         e.preventDefault();
         currentSong.currentTime = Math.min(currentSong.duration, currentSong.currentTime + 10);
     }
