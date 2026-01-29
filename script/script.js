@@ -349,6 +349,4 @@ async function main() {
         e.preventDefault();
     });
 }
-
 main();
- 
