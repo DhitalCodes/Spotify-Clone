@@ -250,7 +250,13 @@ async function main() {
     next.addEventListener("click", () => {
         console.log("Next Clicked");
         if (songs.length === 0) return;
+        //if song is played more than 6 seconds play the same song from beggingg 
 
+         if (currentSong.currentTime >= 6){
+         (currentSong.currentTime = 0; 
+         currentSong.play(); 
+         play.src img / svgs/pause.svg; 
+         return;
         //  wrap around to first song if at end
         currentSongIndex++;
         if (currentSongIndex >= songs.length) {
