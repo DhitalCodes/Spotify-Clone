@@ -302,10 +302,12 @@ async function main() {
         }
         //f to full screen and algain f to exit full screen
         if (e.code === "KeyF") {
-            document.documentElement.requestFullscreen();
-        }
-        if (e.code === "KeyF") {
-            document.exitFullscreen();
+            e.preventDefault();
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                document.exitFullscreen();
+            }
         }
         // N to play next song
         if (e.code === "KeyN") {
