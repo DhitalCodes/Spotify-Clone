@@ -237,12 +237,18 @@ async function main() {
         console.log("Previous Clicked");
         if (songs.length === 0) return;
 
-        // wrap around to last song if at beginning
+        // If song has played more than 15 seconds restart the same song
+        if (currentSong.currentTime > 15) {
+            currentSong.currentTime = 0;
+            currentSong.play();
+            document.querySelector("#play").src = "img/svgs/pause.svg";
+            return;
+        }
+        // Go to previous song
         currentSongIndex--;
         if (currentSongIndex < 0) {
             currentSongIndex = songs.length - 1;
         }
-
         playMusic(songs[currentSongIndex]);
     });
 
@@ -320,14 +326,14 @@ async function main() {
         }
         // Seek backward 10 seconds using ArrowLeft key
         if (e.code === "ArrowLeft") {
-        e.preventDefault();
-        currentSong.currentTime = Math.max(0, currentSong.currentTime - 10);
-    }
+            e.preventDefault();
+            currentSong.currentTime = Math.max(0, currentSong.currentTime - 10);
+        }
         // Seek forward 10 seconds using ArrowRight key
         if (e.code === "ArrowRight") {
-        e.preventDefault();
-        currentSong.currentTime = Math.min(currentSong.duration, currentSong.currentTime + 10);
-    }
+            e.preventDefault();
+            currentSong.currentTime = Math.min(currentSong.duration, currentSong.currentTime + 10);
+        }
 
     });
     //done with shortcuts
