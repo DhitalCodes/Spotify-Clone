@@ -604,18 +604,6 @@ p {
     text-align: right;
 }
 
-.volume-control {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.volume-control img {
-    width: 20px;
-    height: 20px;
-    filter: invert(0.7);
-}
-
 /* Close & Hamburger */
 .close {
     display: none;
