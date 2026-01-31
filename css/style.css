@@ -9,13 +9,19 @@ html {
 }
 
 body {
-    background-color: #121212;
-    color: #ffffff;
-    cursor: default;
-    font-family: 'Poppins', sans-serif;
-    line-height: 1.5;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+  /* Color & Theme */
+  background-color: #121212;  /* Dark background for reduced eye strain */
+  color: #ffffff;             /* High contrast white text */
+  /* Typography */
+  font-family: 'Poppins', sans-serif;
+  line-height: 1.5;          /* Comfortable reading rhythm */
+  /* Cursor & Interaction */
+  cursor: default;           /* Standard cursor for most elements */
+  /* Font Rendering - ai generated*/
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Future-proofing */
+  text-rendering: optimizeLegibility;
 }
 
 h1 {
@@ -283,7 +289,6 @@ p {
 
 .card:hover {
     background-color: #282828;
-    transform: translateY(-4px);
 }
 
 .card img {
