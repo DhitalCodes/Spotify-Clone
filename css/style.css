@@ -156,6 +156,8 @@ p {
     margin-top: auto;
     line-height: 1.4;
     border-top: 1px solid #282828;
+    justify-content: center;
+     align-items: center;
 }
 
 .footer a {
