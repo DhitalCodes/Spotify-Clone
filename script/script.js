@@ -386,6 +386,5 @@ function updateSeekbar(clickEvent) {
     addEventListener('selectstart', (e) => {
         e.preventDefault();
     });
-    // changes
 }
 main();
