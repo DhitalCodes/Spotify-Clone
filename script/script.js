@@ -10,17 +10,17 @@ function secondsToMinutesSeconds(seconds) {
     if (typeof seconds !== 'number' || seconds < 0) {
         return "00:00";
     }
-    
+
     // Get whole minutes (rounding down)
     const wholeMinutes = Math.floor(seconds / 60);
-    
+
     // Get leftover seconds after removing minutes
     const leftoverSeconds = Math.floor(seconds % 60);
-    
+
     // Make sure both parts are always 2 digits
     const minutesDisplay = wholeMinutes.toString().padStart(2, '0');
     const secondsDisplay = leftoverSeconds.toString().padStart(2, '0');
-    
+
     return minutesDisplay + ":" + secondsDisplay;
 }
 
@@ -29,24 +29,24 @@ async function getSongs(folder) {
 
     // Load playlist metadata
     try {
-    // Build the path to the playlist info file
-    const playlistInfoPath = `./songs/${folder}/info.json`;
-    
-    // Try to fetch the file
-    const response = await fetch(playlistInfoPath);
-    currentPlaylistInfo = await response.json();
-    
-} catch (error) {
-    // Something went wrong - maybe the file doesn't exist
-    console.warn(`Playlist info not found for ${folder}, using default:`, error);
-    
-    // Create a basic info object using the folder name as artist
-    currentPlaylistInfo = {
-        artist: folder,
-        title: `Playlist: ${folder}`,
-        description: 'Playlist information could not be loaded'
-    };
-}
+        // Build the path to the playlist info file
+        const playlistInfoPath = `./songs/${folder}/info.json`;
+
+        // Try to fetch the file
+        const response = await fetch(playlistInfoPath);
+        currentPlaylistInfo = await response.json();
+
+    } catch (error) {
+        // Something went wrong - maybe the file doesn't exist
+        console.warn(`Playlist info not found for ${folder}, using default:`, error);
+
+        // Create a basic info object using the folder name as artist
+        currentPlaylistInfo = {
+            artist: folder,
+            title: `Playlist: ${folder}`,
+            description: 'Playlist information could not be loaded'
+        };
+    }
 
     let a = await fetch(`./songs/${folder}/`);
     let response = await a.text();
@@ -208,35 +208,35 @@ async function main() {
     // Add event listener for seekbar
     let isDragging = false;
 
-function updateSeekbar(clickEvent) {
-    // Find the seekbar element and its dimensions
-    const seekbar = document.querySelector('.seekbar');
-    const seekbarRect = seekbar.getBoundingClientRect();
-    
-    // Calculate where the user clicked on the seekbar
-    const clickPosition = clickEvent.clientX - seekbarRect.left;
-    const seekbarWidth = seekbarRect.width;
-    
-    // Convert click position to a percentage (0-100)
-    let seekPercentage = (clickPosition / seekbarWidth) * 100;
-    
-    // Make sure percentage stays within bounds
-    seekPercentage = Math.max(0, Math.min(100, seekPercentage));
-    
-    // Move the circle handle to the clicked position
-    const circleHandle = document.querySelector('.circle');
-    circleHandle.style.left = `${seekPercentage}%`;
-    
-    // Update the progress bar fill
-    const progressFill = document.querySelector('.progress');
-    progressFill.style.width = `${seekPercentage}%`;
-    
-    // If we have audio loaded, jump to the clicked position
-    if (currentSong && currentSong.duration) {
-        const targetTime = (seekPercentage / 100) * currentSong.duration;
-        currentSong.currentTime = targetTime;
+    function updateSeekbar(clickEvent) {
+        // Find the seekbar element and its dimensions
+        const seekbar = document.querySelector('.seekbar');
+        const seekbarRect = seekbar.getBoundingClientRect();
+
+        // Calculate where the user clicked on the seekbar
+        const clickPosition = clickEvent.clientX - seekbarRect.left;
+        const seekbarWidth = seekbarRect.width;
+
+        // Convert click position to a percentage (0-100)
+        let seekPercentage = (clickPosition / seekbarWidth) * 100;
+
+        // Make sure percentage stays within bounds
+        seekPercentage = Math.max(0, Math.min(100, seekPercentage));
+
+        // Move the circle handle to the clicked position
+        const circleHandle = document.querySelector('.circle');
+        circleHandle.style.left = `${seekPercentage}%`;
+
+        // Update the progress bar fill
+        const progressFill = document.querySelector('.progress');
+        progressFill.style.width = `${seekPercentage}%`;
+
+        // If we have audio loaded, jump to the clicked position
+        if (currentSong && currentSong.duration) {
+            const targetTime = (seekPercentage / 100) * currentSong.duration;
+            currentSong.currentTime = targetTime;
+        }
     }
-}
 
     document.querySelector(".seekbar").addEventListener("mousedown", (e) => {
         isDragging = true;
