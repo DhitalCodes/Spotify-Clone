@@ -538,6 +538,8 @@ p {
     gap: 20px;
     min-width: 180px;
     justify-content: flex-end;
+    color: #B3C8B9;
+    font-weight: 550;
 }
 /* Close & Hamburger */
 .close {
@@ -548,8 +550,6 @@ p {
     display: none;
     filter: brightness(0) invert(100%);
 }
-
-
 
 /* Media Queries */
 @media (max-width: 1400px) {
