@@ -9,19 +9,23 @@ html {
 }
 
 body {
-  /* Color & Theme */
-  background-color: #121212;  /* Dark background for reduced eye strain */
-  color: #ffffff;             /* High contrast white text */
-  /* Typography */
-  font-family: 'Poppins', sans-serif;
-  line-height: 1.5;          /* Comfortable reading rhythm */
-  /* Cursor & Interaction */
-  cursor: default;           /* Standard cursor for most elements */
-  /* Font Rendering - ai generated*/
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  /* Future-proofing */
-  text-rendering: optimizeLegibility;
+    /* Color & Theme */
+    background-color: #121212;
+    /* Dark background for reduced eye strain */
+    color: #ffffff;
+    /* High contrast white text */
+    /* Typography */
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.5;
+    /* Comfortable reading rhythm */
+    /* Cursor & Interaction */
+    cursor: default;
+    /* Standard cursor for most elements */
+    /* Font Rendering - ai generated*/
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Future-proofing */
+    text-rendering: optimizeLegibility;
 }
 
 h1 {
@@ -163,7 +167,7 @@ p {
     line-height: 1.4;
     border-top: 1px solid #282828;
     justify-content: center;
-     align-items: center;
+    align-items: center;
 }
 
 .footer a {
@@ -541,6 +545,7 @@ p {
     color: #B3C8B9;
     font-weight: 550;
 }
+
 /* Close & Hamburger */
 .close {
     display: none;
